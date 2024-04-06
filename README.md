@@ -11,12 +11,17 @@ As classes são: solo vermelho, colheita de algodão, solo cinza, solo cinza úm
 
 Os dados estão em ordem aleatória e certas linhas de dados foram removidas, portanto você não pode reconstruir a imagem original desse conjunto de dados. Em cada linha de dados, os quatro valores espectrais para o pixel superior esquerdo são dados primeiro, seguidos pelos quatro valores espectrais para o pixel superior central e, em seguida, para o pixel superior direito, e assim por diante, com os pixels lidos em sequência, da esquerda para a direita e de cima para baixo. Assim, os quatro valores espectrais para o pixel central são dados pelos atributos 17, 18, 19 e 20. Se você quiser, pode usar apenas esses quatro atributos, ignorando os outros. Isso evita o problema que surge quando uma vizinhança 3x3 atravessa um limite.
 O banco de dados se encontra no pacote mlbench e é completo (não possui dados faltantes). Tarefas:
-        1. Carregue a base de dados Satellite
-        2. Crie partições contendo 80% para treino e 20% para teste
-        3. Treine modelos RandomForest, SVM e RNA para predição destes dados.
-        4. Escolha o melhor modelo com base em suas matrizes de confusão.
-        5. Indique qual modelo dá o melhor o resultado e a métrica utilizada
 
+        1. Carregue a base de dados Satellite
+
+        2. Crie partições contendo 80% para treino e 20% para teste
+
+        3. Treine modelos RandomForest, SVM e RNA para predição destes dados.
+
+        4. Escolha o melhor modelo com base em suas matrizes de confusão.
+
+        5. Indique qual modelo dá o melhor o resultado e a métrica utilizada
+        
 
 ---
 
@@ -35,6 +40,7 @@ Onde dap é o diâmetro na altura do peito (1,3metros), Ht é a altura total. Te
 Dado o arquivo Volumes.csv, que contém os dados de observação, escolha um modelo de aprendizado de máquina com a melhor estimativa, a partir da estatística de correlação.
 
 Tarefas
+
         1. Carregar o arquivo Volumes.csv (http://www.razer.net.br/datasets/Volumes.csv)
 
         2. Eliminar a coluna NR, que só apresenta um número sequencial
