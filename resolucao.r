@@ -24,4 +24,11 @@ matriz.rf <- caret::confusionMatrix(predicoes.rf, teste$classes)
 matriz.rf
 
 
-#
+#SVM
+
+svm <- caret::train(classes~., data=treino, method="svmRadial")
+
+predicoes.svm <- predict(svm, teste)
+
+matriz.svm <- caret::confusionMatrix(predicoes.svm, teste$classes)
+matriz.svm
