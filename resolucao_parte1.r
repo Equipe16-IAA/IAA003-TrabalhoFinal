@@ -32,3 +32,13 @@ predicoes.svm <- predict(svm, teste)
 
 matriz.svm <- caret::confusionMatrix(predicoes.svm, teste$classes)
 matriz.svm
+
+
+#RNA
+
+rna <- caret::train(classes~., data=treino, method="nnet")
+predicoes.rna <- predict(rna, teste)
+
+matriz.rna <- caret::confusionMatrix(predicoes.rna, teste$classes)
+matriz.rna
+
