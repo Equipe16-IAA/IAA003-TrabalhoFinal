@@ -5,14 +5,17 @@ library("caret")
 data(Satellite) #carregamento da base Satellite do pacote
 str(Satellite) #visualizacao dos dados principais
 
+valores_centrais <- Satellite [,c(17,18,19,20,37)]
+head(valores_centrais)
 
 set.seed(7)
 
-indices <- createDataPartition(Satellite$classes, p=0.8, list=FALSE) #particao em base de treino 80%
+indices <- createDataPartition(valores_centrais$classes, p=0.8, list=FALSE) #particao em base de treino 80%
 
-treino <- Satellite[indices,]
+treino <- valores_centrais[indices,]
 
-teste <- Satellite[-indices,]
+teste <- valores_centrais[-indices,]
+
 
 #RANDOM FOREST
 
@@ -26,7 +29,7 @@ matriz.rf
 
 #SVM
 
-svm <- caret::train(classes~., data=treino, method="svmRadial")
+svm <- caret::train(classes ~ ., data=treino, method="svmRadial")
 
 predicoes.svm <- predict(svm, teste)
 
