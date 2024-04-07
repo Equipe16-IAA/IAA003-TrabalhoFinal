@@ -1,0 +1,164 @@
+> library("mlbench")
+> library("caret")
+> data(Satellite) #carregamento da base Satellite do pacote
+
+> valores_centrais <- Satellite [,c(17,18,19,20,37)]
+> head(valores_centrais)
+  x.17 x.18 x.19 x.20   classes
+1   92  112  118   85 grey soil
+2   84  103  104   81 grey soil
+3   84   99  104   78 grey soil
+4   84   99  104   81 grey soil
+5   76   99  104   81 grey soil
+6   76   99  108   85 grey soil
+> set.seed(7)
+> indices <- createDataPartition(valores_centrais$classes, p=0.8, list=FALSE) #particao em base de treino 80%
+> treino <- valores_centrais[indices,]
+> teste <- valores_centrais[-indices,]
+
+***********************  RANDOM FOREST *****************************************************************
+
+> rf <- caret::train(classes~., data=treino, method="rf")
+> predicoes.rf <- predict(rf, teste)
+> matriz.rf <- caret::confusionMatrix(predicoes.rf, teste$classes)
+> matriz.rf
+Confusion Matrix and Statistics
+
+                     Reference
+Prediction            red soil cotton crop grey soil damp grey soil vegetation stubble very damp grey soil
+  red soil                 296           1         5              2                  8                  0
+  cotton crop                0         123         0              0                  3                  1
+  grey soil                  3           0       239             28                  1                 10
+  damp grey soil             1           0        20             60                  1                 40
+  vegetation stubble         6          10         0              0                118                  8
+  very damp grey soil        0           6         7             35                 10                242
+
+
+Overall Statistics
+                                          
+               Accuracy : 0.8396          
+                 95% CI : (0.8183, 0.8592)
+    No Information Rate : 0.2383          
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.8017          
+                                          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: red soil Class: cotton crop Class: grey soil Class: damp grey soil
+Sensitivity                   0.9673            0.87857           0.8819               0.48000
+Specificity                   0.9836            0.99650           0.9585               0.94651
+Pos Pred Value                0.9487            0.96850           0.8505               0.49180
+Neg Pred Value                0.9897            0.98531           0.9681               0.94406
+Prevalence                    0.2383            0.10903           0.2111               0.09735
+Detection Rate                0.2305            0.09579           0.1861               0.04673
+Detection Prevalence          0.2430            0.09891           0.2188               0.09502
+Balanced Accuracy             0.9755            0.93754           0.9202               0.71325
+                     Class: vegetation stubble Class: very damp grey soil
+Sensitivity                             0.8369                     0.8040
+Specificity                             0.9790                     0.9410
+Pos Pred Value                          0.8310                     0.8067
+Neg Pred Value                          0.9799                     0.9400
+Prevalence                              0.1098                     0.2344
+Detection Rate                          0.0919                     0.1885
+Detection Prevalence                    0.1106                     0.2336
+Balanced Accuracy                       0.9079                     0.8725
+
+***********************  SVM **********************************************************************
+> svm <- caret::train(classes ~ ., data=treino, method="svmRadial")
+> predicoes.svm <- predict(svm, teste)
+> matriz.svm <- caret::confusionMatrix(predicoes.svm, teste$classes)
+> matriz.svm
+Confusion Matrix and Statistics
+
+                     Reference
+Prediction            red soil cotton crop grey soil damp grey soil vegetation stubble very damp grey soil
+  red soil                 299           1         4              2                  7                   0
+  cotton crop                1         120         0              0                  4                   0
+  grey soil                  4           0       260             29                  1                  12
+  damp grey soil             0           1         7             69                  2                  32
+  vegetation stubble         2          14         0              2                117                   3
+  very damp grey soil        0           4         0             23                 10                 254
+
+Overall Statistics
+                                          
+               Accuracy : 0.8715          
+                 95% CI : (0.8519, 0.8893)
+    No Information Rate : 0.2383          
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.8409          
+                                          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: red soil Class: cotton crop Class: grey soil Class: damp grey soil
+Sensitivity                   0.9771            0.85714           0.9594               0.55200
+Specificity                   0.9857            0.99563           0.9546               0.96376
+Pos Pred Value                0.9553            0.96000           0.8497               0.62162
+Neg Pred Value                0.9928            0.98274           0.9888               0.95226
+Prevalence                    0.2383            0.10903           0.2111               0.09735
+Detection Rate                0.2329            0.09346           0.2025               0.05374
+Detection Prevalence          0.2438            0.09735           0.2383               0.08645
+Balanced Accuracy             0.9814            0.92639           0.9570               0.75788
+                     Class: vegetation stubble Class: very damp grey soil
+Sensitivity                            0.82979                     0.8439
+Specificity                            0.98163                     0.9624
+Pos Pred Value                         0.84783                     0.8729
+Neg Pred Value                         0.97906                     0.9527
+Prevalence                             0.10981                     0.2344
+Detection Rate                         0.09112                     0.1978
+Detection Prevalence                   0.10748                     0.2266
+Balanced Accuracy                      0.90571                     0.9031
+
+******************************  RNA *****************************************************************
+
+> predicoes.rna <- predict(rna, teste)
+> matriz.rna <- caret::confusionMatrix(predicoes.rna, teste$classes)
+> matriz.rna
+Confusion Matrix and Statistics
+
+                     Reference
+Prediction            red soil cotton crop grey soil damp grey soil vegetation stubble very damp grey soil
+  red soil                 291           2         1              0                 10                   0
+  cotton crop                0         118         0              0                  0                   0
+  grey soil                  6           0       252             85                  4                  69
+  damp grey soil             0           0         0              0                  0                   0
+  vegetation stubble         0           1         0              0                  3                   0
+  very damp grey soil        9          19        18             40                124                 232
+ 
+
+Overall Statistics
+                                          
+               Accuracy : 0.6978          
+                 95% CI : (0.6719, 0.7228)
+    No Information Rate : 0.2383          
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.6146          
+                                          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: red soil Class: cotton crop Class: grey soil Class: damp grey soil
+Sensitivity                   0.9510             0.8429           0.9299               0.00000
+Specificity                   0.9867             1.0000           0.8381               1.00000
+Pos Pred Value                0.9572             1.0000           0.6058                   NaN
+Neg Pred Value                0.9847             0.9811           0.9781               0.90265
+Prevalence                    0.2383             0.1090           0.2111               0.09735
+Detection Rate                0.2266             0.0919           0.1963               0.00000
+Detection Prevalence          0.2368             0.0919           0.3240               0.00000
+Balanced Accuracy             0.9688             0.9214           0.8840               0.50000
+                     Class: vegetation stubble Class: very damp grey soil
+Sensitivity                           0.021277                     0.7708
+Specificity                           0.999125                     0.7864
+Pos Pred Value                        0.750000                     0.5249
+Neg Pred Value                        0.892188                     0.9181
+Prevalence                            0.109813                     0.2344
+Detection Rate                        0.002336                     0.1807
+Detection Prevalence                  0.003115                     0.3442
+Balanced Accuracy                     0.510201                     0.7786
