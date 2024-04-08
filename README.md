@@ -62,21 +62,24 @@ $$ Volume = b0 + b1 * dap2 * Ht $$
 6. Crie suas próprias funções (UDF) e calcule as seguintes métricas entre a predição e os dados observados
 
 * Coeficiente de determinação: R2
+
+ $$R^2 = 1- \frac { \sum_{i=1}^n (y_i - ŷ_i) ^2 }{\sum_{i=1}^n (y_i - ӯ) ^2} $$
   
-![formula coeficiente de determinação](https://github.com/Equipe16-IAA/IAA003-TrabalhoFinal/blob/main/formular2.jpg?raw=true)
 
 onde 𝑦i é o valor observado, 𝑦"7 é o valor predito e 𝑦# é a média dos valores 𝑦i observados. Quanto mais perto de 1 melhor pe o modelo;
 
 * Erro padrão da estimativa: Syx
-  
-![formula erro padrao](https://github.com/Equipe16-IAA/IAA003-TrabalhoFinal/blob/main/erropadrao-1.jpg?raw=true)
+
+$$S_{yx} = \sqrt \frac { \sum_{i=1}^n (y_i - ŷ_i) ^2 }{n-2} $$
+
 
 esta métrica indica erro, portanto quanto mais perto de 0 melhor é o modelo;
         
 * Syx%
-    
-![formula de porcentagem erro](https://github.com/Equipe16-IAA/IAA003-TrabalhoFinal/blob/main/porcentagemerro-1.jpg?raw=true)
 
+$$S_{yx} porcento =  \frac { S_{yx}}{ӯ} * 100 $$
+
+    
 esta métrica indica porcentagem de erro, portanto quanto mais perto de 0 melhor é o modelo;
 
 7. Escolha o melhor modelo.
