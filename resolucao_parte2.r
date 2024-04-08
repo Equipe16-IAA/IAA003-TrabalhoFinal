@@ -4,7 +4,8 @@ library("caret")
 df <- read.csv2("http://www.razer.net.br/datasets/Volumes.csv", header=T, sep=";", dec=",")
 
 
-dados <- dados[,2:5]
+dados <- subset(df, select= -NR)
+
 head(dados)
 
 set.seed(7)
@@ -40,7 +41,7 @@ alom <-	nls(VOL	~ b0 + b1* DAP * DAP * HT,	data=treino, start=list(b0=0.5, b1=0.
 
 predicoes.alom <- predict(alom, teste)
 
-#UDFs
+######UDFs
 
 #coeficiente de determinação
 
@@ -66,5 +67,32 @@ porsyx <- function(valor_real, valor_predito){
   
   porsyx <- (syx(valor_real, valor_predito)/mean(valor_real))*100
   
+  return(porsyx)
 }
 
+
+###comparação entre resultados
+
+#rf
+r2(teste$VOL, predicoes.rf)
+syx(teste$VOL, predicoes.rf)
+porsyx(teste$VOL, predicoes.rf)
+RMSE(predicoes.rf, teste$VOL)
+
+#svm
+r2(teste$VOL, predicoes.svm)
+syx(teste$VOL, predicoes.svm)
+porsyx(teste$VOL, predicoes.svm)
+RMSE(predicoes.svm, teste$VOL)
+
+#redes neurais
+r2(teste$VOL, predicoes.redeneural)
+syx(teste$VOL, predicoes.redeneural)
+porsyx(teste$VOL, predicoes.redeneural)
+RMSE(predicoes.redeneural, teste$VOL)
+
+#modelo alometrico de Spurr
+r2(teste$VOL, predicoes.alom)
+syx(teste$VOL, predicoes.alom)
+porsyx(teste$VOL, predicoes.alom)
+RMSE(predicoes.alom, teste$VOL)
