@@ -12,15 +12,15 @@ As classes são: solo vermelho, colheita de algodão, solo cinza, solo cinza úm
 Os dados estão em ordem aleatória e certas linhas de dados foram removidas, portanto você não pode reconstruir a imagem original desse conjunto de dados. Em cada linha de dados, os quatro valores espectrais para o pixel superior esquerdo são dados primeiro, seguidos pelos quatro valores espectrais para o pixel superior central e, em seguida, para o pixel superior direito, e assim por diante, com os pixels lidos em sequência, da esquerda para a direita e de cima para baixo. Assim, os quatro valores espectrais para o pixel central são dados pelos atributos 17, 18, 19 e 20. Se você quiser, pode usar apenas esses quatro atributos, ignorando os outros. Isso evita o problema que surge quando uma vizinhança 3x3 atravessa um limite.
 O banco de dados se encontra no pacote mlbench e é completo (não possui dados faltantes). Tarefas:
 
-        1. Carregue a base de dados Satellite
+1. Carregue a base de dados Satellite
 
-        2. Crie partições contendo 80% para treino e 20% para teste
+2. Crie partições contendo 80% para treino e 20% para teste
 
-        3. Treine modelos RandomForest, SVM e RNA para predição destes dados.
+3. Treine modelos RandomForest, SVM e RNA para predição destes dados.
 
-        4. Escolha o melhor modelo com base em suas matrizes de confusão.
+4. Escolha o melhor modelo com base em suas matrizes de confusão.
 
-        5. Indique qual modelo dá o melhor o resultado e a métrica utilizada
+5. Indique qual modelo dá o melhor o resultado e a métrica utilizada
         
 
 ---
@@ -33,43 +33,50 @@ O processo é feito pela coleta de dados (dados observados) através do abate de
 
 Os modelos, chamados alométricos, são usados na área há muitos anos e são baseados em regressão (linear ou não) para encontrar uma equação que descreve os dados. Por exemplo, o modelo de Spurr é dado por:
 
-Volume = b0 + b1 * dap2 * Ht
+$$ Volume = b0 + b1 * dap2 * Ht $$
 
 Onde dap é o diâmetro na altura do peito (1,3metros), Ht é a altura total. Tem-se vários modelos alométricos, cada um com uma determinada característica, parâmetros, etc. Um modelo de regressão envolve aplicar os dados observados e encontrar b0 e b1 no modelo apresentado, gerando assim uma equação que pode ser usada para prever o volume de outras árvores.
 
 Dado o arquivo Volumes.csv, que contém os dados de observação, escolha um modelo de aprendizado de máquina com a melhor estimativa, a partir da estatística de correlação.
 
-Tarefas
+Tarefas:
 
-        1. Carregar o arquivo Volumes.csv (http://www.razer.net.br/datasets/Volumes.csv)
+1. Carregar o arquivo Volumes.csv (http://www.razer.net.br/datasets/Volumes.csv)
+        
+2. Eliminar a coluna NR, que só apresenta um número sequencial
+        
+3. Criar partição de dados: treinamento 80%, teste 20%
+        
+4. Usando o pacote "caret", treinar os modelos: Random Forest (rf), SVM (svmRadial), Redes Neurais (neuralnet) e o modelo alométrico de SPURR
+        
+O modelo alométrico é dado por:
 
-        2. Eliminar a coluna NR, que só apresenta um número sequencial
-
-        3. Criar partição de dados: treinamento 80%, teste 20%
-
-        4. Usando o pacote "caret", treinar os modelos: Random Forest (rf), SVM 
-        (svmRadial), Redes Neurais (neuralnet) e o modelo alométrico de SPURR
-
-        * O modelo alométrico é dado por: Volume = b0 + b1 * dap2 * Ht
+$$ Volume = b0 + b1 * dap2 * Ht $$
+        
 ~~~R
-    alom <-	nls(VOL	~ b0 + b1* DAP * DAP * HT,	dados, start=list(b0=0.5, b1=0.5))
+    alom <- nls(VOL ~ b0 + b1* DAP * DAP * HT, dados, start=list(b0=0.5, b1=0.5))
 ~~~
 
-        5. Efetue as predições nos dados de teste
-
-        6. Crie suas próprias funções (UDF) e calcule as seguintes métricas entre a predição e os dados observados
-
-        * Coeficiente de determinação: R2
-        ![formula coeficiente de determinação](formular2.jpeg)
-
-        onde 𝑦i é o valor observado, 𝑦"7 é o valor predito e 𝑦# é a média dos valores 𝑦i observados. Quanto mais perto de 1 melhor pe o modelo;
-
-        * Erro padrão da estimativa: Syx
-        ![formula erro padrao](erropadrao-1.jpg)
-        esta métrica indica erro, portanto quanto mais perto de 0 melhor é o modelo;
+5. Efetue as predições nos dados de teste
         
-        *Syx%
-        ![formula de porcentagem erro](porcentagemerro-1.jpg)
-        esta métrica indica porcentagem de erro, portanto quanto mais perto de 0 melhor é o modelo;
+6. Crie suas próprias funções (UDF) e calcule as seguintes métricas entre a predição e os dados observados
 
-        7. Escolha o melhor modelo.
+* Coeficiente de determinação: R2
+  
+![formula coeficiente de determinação](https://github.com/Equipe16-IAA/IAA003-TrabalhoFinal/blob/main/formular2.jpg?raw=true)
+
+onde 𝑦i é o valor observado, 𝑦"7 é o valor predito e 𝑦# é a média dos valores 𝑦i observados. Quanto mais perto de 1 melhor pe o modelo;
+
+* Erro padrão da estimativa: Syx
+  
+![formula erro padrao](https://github.com/Equipe16-IAA/IAA003-TrabalhoFinal/blob/main/erropadrao-1.jpg?raw=true)
+
+esta métrica indica erro, portanto quanto mais perto de 0 melhor é o modelo;
+        
+* Syx%
+    
+![formula de porcentagem erro](https://github.com/Equipe16-IAA/IAA003-TrabalhoFinal/blob/main/porcentagemerro-1.jpg?raw=true)
+
+esta métrica indica porcentagem de erro, portanto quanto mais perto de 0 melhor é o modelo;
+
+7. Escolha o melhor modelo.
