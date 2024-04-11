@@ -22,5 +22,22 @@ indices <-createDataPartition(df$classes,p=0.80, list=FALSE)
 treino <- Satellite[indices,]
 teste <- Satellite[-indices,]
 
-# Treinamento de modelo Random Forest
+# Treinamento dos modelos
 rf <- train(classes~.,data=treino,method="rf")
+svm <- train(classes~.,data=treino,method="svmRadial")
+rna <- train(classes~.,data=treino,method="nnet")
+
+# Predições
+predicoes.rf <- predict(rf,teste)
+predicoes.svm <- predict(svm,teste)
+predicoes.rna <- predict(rna,teste)
+
+# Comparando resultados
+confusionMatrix(predict.rf, teste$classes)
+confusionMatrix(predict.svm, teste$classes)
+confusionMatrix(predict.rna, teste$classes)
+
+
+
+
+
