@@ -10,13 +10,13 @@ library("randomForest")
 data(Satellite)
 
 # Mostra que a base foi carregada
-Sattelite
+df<-Sattelite[,c(17,18,19,20,37)]
 
 # Define uma semente para manter os resultados sempre iguais em cada execução
 set.seed(10)
 
 # Faz a separação entre dados de treinamento e teste
-indices <-createDataPartition(Satellite$classes,p=0.80, list=FALSE)
+indices <-createDataPartition(df$classes,p=0.80, list=FALSE)
 treino <- Satellite[indices,]
 teste <- Satellite[-indices,]
 
