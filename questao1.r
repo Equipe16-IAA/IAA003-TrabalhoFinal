@@ -1,5 +1,4 @@
-# Pacotes abaixo foram instalados previamente utilizando o comando install.packages("[nome_do_pacote]")
-# caret,mlbench,randomForest
+# Pacotes carregados abaixo com o comando library foram instalados previamente utilizando o comando install.packages("[nome_do_pacote]")
 
 # Carrega as bibliotecas que serão usadas
 library("ggplot2")
@@ -7,6 +6,7 @@ library("lattice")
 library("mlbench")
 library("caret")
 library("randomForest")
+library("kernlab")
 
 # Carrega a base de dados Satellite
 data(Satellite)
@@ -33,9 +33,9 @@ predicoes.svm <- predict(svm,teste)
 predicoes.rna <- predict(rna,teste)
 
 # Comparando resultados
-confusionMatrix(predict.rf, teste$classes)
-confusionMatrix(predict.svm, teste$classes)
-confusionMatrix(predict.rna, teste$classes)
+confusionMatrix(predicoes.rf, teste$classes)
+confusionMatrix(predicoes.svm, teste$classes)
+confusionMatrix(predicoes.rna, teste$classes)
 
 
 
