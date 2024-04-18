@@ -16,7 +16,7 @@ dados <- read.csv2("Volumes.csv" , header=T)
 dados_new <- dados[ , 2:5]
 
 # Define uma semente para manter os resultados sempre iguais em cada execução
-set.seed(10)
+set.seed(7)
 
 # Faz a separação entre dados de treinamento e teste
 indices <-createDataPartition(dados_new$VOL,p=0.80, list=FALSE)
