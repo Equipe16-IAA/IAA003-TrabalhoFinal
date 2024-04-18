@@ -14,6 +14,7 @@ dados <- read.csv2("Volumes.csv" , header=T)
 
 # Remove coluna NR
 dados_new <- dados[ , 2:5]
+head(dados_new)
 
 # Define uma semente para manter os resultados sempre iguais em cada execução
 set.seed(7)
@@ -26,16 +27,17 @@ teste <- dados_new[-indices,]
 # Treinamento dos modelos
 rf <- caret::train(VOL~.,data=treino,method="rf")
 svm <- caret::train(VOL~.,data=treino,method="svmRadial")
-redeneural <- caret::train(VOL~.,data=treino,method="neuralnet")
+nnet <- caret::train(VOL~.,data=treino,method="nnet")
+#redeneural <- caret::train(VOL~.,data=treino,method="neuralnet")
 # Modelo alometrico
 alom <- nls(VOL ~ b0 + b1*DAP*DAP*HT, dados_new, start=list(b0=0.5,b1=0.5))
  
 # Predições
 predicoes.rf <- predict(rf,teste)
 predicoes.svm <- predict(svm,teste)
-predicoes.redeneural <- predict(redeneural,teste)
+#predicoes.redeneural <- predict(redeneural,teste)
+predicoes.nnet <- predict(nnet,teste)
 predicoes.alom <- predict(alom,teste)
-
 
 
 #coeficiente de determinação
@@ -96,19 +98,35 @@ cat("\n")
 cat("RMSE\n")
 RMSE(predicoes.svm, teste$VOL)
 
-#redes neurais
-cat("---------------------REDES NEURAIS---------------------------\n\n")
+#redes neurais (NEURAL NET)
+cat("---------------------REDES NEURAIS (NEURAL NET)---------------------------\n\n")
 cat("R2\n")
-r2(teste$VOL, predicoes.redeneural)
+#r2(teste$VOL, predicoes.redeneural)
 cat("\n")
 cat("Erro Padrão de Estimativa (Syx)\n")
-syx(teste$VOL, predicoes.redeneural)
+#syx(teste$VOL, predicoes.redeneural)
 cat("\n")
 cat("Erro Padrão de Estimativa (Syx) percentual\n")
-porsyx(teste$VOL, predicoes.redeneural)
+#porsyx(teste$VOL, predicoes.redeneural)
 cat("\n")
 cat("RMSE\n")
-RMSE(predicoes.redeneural, teste$VOL)
+#RMSE(predicoes.redeneural, teste$VOL)
+
+#redes neurais (NNET)
+cat("---------------------REDES NEURAIS(NNET)---------------------------\n\n")
+cat("R2\n")
+r2(teste$VOL, predicoes.nnet)
+cat("\n")
+cat("Erro Padrão de Estimativa (Syx)\n")
+syx(teste$VOL, predicoes.nnet)
+cat("\n")
+cat("Erro Padrão de Estimativa (Syx) percentual\n")
+porsyx(teste$VOL, predicoes.nnet)
+cat("\n")
+cat("RMSE\n")
+RMSE(predicoes.nnet, teste$VOL)
+
+
 
 #modelo alometrico de Spurr
 cat("---------------------ALOMETRICO---------------------------\n\n")
